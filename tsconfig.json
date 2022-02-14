@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es6",                         
+    "module": "commonjs",
+    "allowJs": true,
+    "outDir": "dist",
+    "noImplicitAny": true, 
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "sourceMap": false,
+    "strict": true,                          
+    "esModuleInterop": true,      
+    "forceConsistentCasingInFileNames": true  
+  },
+  "include": ["./src/**/*"]
+}
