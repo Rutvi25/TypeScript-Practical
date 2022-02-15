@@ -2,7 +2,7 @@
 let calcSecondFlag = true;
 let degFlag = true;
 let trigonometryInverseFlag = true;
-let trigonometryHyperbolicFlag = true;
+let HyperbolicFlag = true;
 let feFlag = true;
 // Column-1 function change on pressing the "2nd" button.
 function handleCalcSecondBtn() {
@@ -34,7 +34,7 @@ function handleTrigonometryInverse() {
     if (trigonometryInverseFlag) {
         document.getElementById("trigonometryInverse").style.backgroundColor =
             "var(--function-change-btns-background)";
-        if (trigonometryHyperbolicFlag) {
+        if (HyperbolicFlag) {
             document.getElementById("sin").innerHTML = "sin<sup>-1</sup>";
             document.getElementById("cos").innerHTML = "cos<sup>-1</sup>";
             document.getElementById("tan").innerHTML = "tan<sup>-1</sup>";
@@ -50,7 +50,7 @@ function handleTrigonometryInverse() {
     else {
         document.getElementById("trigonometryInverse").style.backgroundColor =
             "var(--main-background)";
-        if (trigonometryHyperbolicFlag) {
+        if (HyperbolicFlag) {
             document.getElementById("sin").innerHTML = "sin";
             document.getElementById("cos").innerHTML = "cos";
             document.getElementById("tan").innerHTML = "tan";
@@ -65,37 +65,37 @@ function handleTrigonometryInverse() {
     }
 }
 // For hyp button under trigonomatry functions
-function handleTrigonometryHyperbolic() {
-    if (trigonometryHyperbolicFlag) {
-        document.getElementById("trigonometryHyperbolic").style.backgroundColor =
+function handleHyperbolic() {
+    if (HyperbolicFlag) {
+        document.getElementById("Hyperbolic").style.backgroundColor =
             "var(--function-change-btns-background)";
         if (trigonometryInverseFlag) {
             document.getElementById("sin").innerHTML = "sinh";
             document.getElementById("cos").innerHTML = "cosh";
             document.getElementById("tan").innerHTML = "tanh";
-            trigonometryHyperbolicFlag = !trigonometryHyperbolicFlag;
+            HyperbolicFlag = !HyperbolicFlag;
         }
         else {
             document.getElementById("sin").innerHTML = "sin<sup>-1</sup>h";
             document.getElementById("cos").innerHTML = "cos<sup>-1</sup>h";
             document.getElementById("tan").innerHTML = "tan<sup>-1</sup>h";
-            trigonometryHyperbolicFlag = !trigonometryHyperbolicFlag;
+            HyperbolicFlag = !HyperbolicFlag;
         }
     }
     else {
-        document.getElementById("trigonometryHyperbolic").style.backgroundColor =
+        document.getElementById("Hyperbolic").style.backgroundColor =
             "var(--main-background)";
         if (trigonometryInverseFlag) {
             document.getElementById("sin").innerHTML = "sin";
             document.getElementById("cos").innerHTML = "cos";
             document.getElementById("tan").innerHTML = "tan";
-            trigonometryHyperbolicFlag = !trigonometryHyperbolicFlag;
+            HyperbolicFlag = !HyperbolicFlag;
         }
         else {
             document.getElementById("sin").innerHTML = "sin<sup>-1</sup>";
             document.getElementById("cos").innerHTML = "sin<sup>-1</sup>";
             document.getElementById("tan").innerHTML = "sin<sup>-1</sup>";
-            trigonometryHyperbolicFlag = !trigonometryHyperbolicFlag;
+            HyperbolicFlag = !HyperbolicFlag;
         }
     }
 }
@@ -176,26 +176,32 @@ function precedence(firstOperator, secondOperator) {
 }
 // Function to calculate string value according to precedence.
 function calculate(operator, secondOperand, firstOperand) {
-    switch (operator) {
-        case "^":
-            return Math.pow(firstOperand, secondOperand);
-        case "√":
-            return nthRoot(secondOperand, firstOperand);
-        case "%":
-            return firstOperand % secondOperand;
-        case "+":
-            return firstOperand + secondOperand;
-        case "–":
-            return firstOperand - secondOperand;
-        case "×":
-            return firstOperand * secondOperand;
-        case "÷":
-            if (secondOperand == 0) {
-                calcScreen.value = "infinity";
-            }
-            return firstOperand / secondOperand;
+    if (typeof secondOperand === "number" && typeof firstOperand === "number"
+        && typeof operator === "string") {
+        switch (operator) {
+            case "^":
+                return Math.pow(firstOperand, secondOperand);
+            case "√":
+                return nthRoot(secondOperand, firstOperand);
+            case "%":
+                return firstOperand % secondOperand;
+            case "+":
+                return firstOperand + secondOperand;
+            case "–":
+                return firstOperand - secondOperand;
+            case "×":
+                return firstOperand * secondOperand;
+            case "÷":
+                if (secondOperand == 0) {
+                    calcScreen.value = "infinity";
+                }
+                return firstOperand / secondOperand;
+        }
+        return 0;
     }
-    return 0;
+    else {
+        return 0;
+    }
 }
 // Function for finding nth root.
 function nthRoot(redicant, index) {
@@ -351,7 +357,8 @@ buttons.map(button => {
             // Converts -ve into +ve
             case "|𝑥|":
                 if (parseFloat(calcScreen.value) < 0)
-                    calcScreen.value = String(parseFloat(calcScreen.value) * -1);
+                    calcScreen.value =
+                        String(parseFloat(calcScreen.value) * -1);
                 break;
             // Inverse
             case "1/𝑥":
@@ -401,7 +408,8 @@ buttons.map(button => {
             // Trigonometric functions
             case "sin":
                 if (degFlag) {
-                    calcScreen.value = Math.sin((parseFloat(calcScreen.value) * Math.PI) / 180).toPrecision(10);
+                    calcScreen.value =
+                        Math.sin((parseFloat(calcScreen.value) * Math.PI) / 180).toPrecision(10);
                 }
                 else {
                     calcScreen.value = Math.sin(parseFloat(calcScreen.value)).toPrecision(10);
@@ -409,7 +417,8 @@ buttons.map(button => {
                 break;
             case "cos":
                 if (degFlag) {
-                    calcScreen.value = Math.cos((parseFloat(calcScreen.value) * Math.PI) / 180).toPrecision(10);
+                    calcScreen.value =
+                        Math.cos((parseFloat(calcScreen.value) * Math.PI) / 180).toPrecision(10);
                 }
                 else {
                     calcScreen.value = Math.cos(parseFloat(calcScreen.value)).toPrecision(10);
@@ -417,7 +426,8 @@ buttons.map(button => {
                 break;
             case "tan":
                 if (degFlag) {
-                    calcScreen.value = Math.tan((parseFloat(calcScreen.value) * Math.PI) / 180).toPrecision(10);
+                    calcScreen.value =
+                        Math.tan((parseFloat(calcScreen.value) * Math.PI) / 180).toPrecision(10);
                 }
                 else {
                     calcScreen.value = Math.tan(parseFloat(calcScreen.value)).toPrecision(10);
@@ -452,7 +462,8 @@ buttons.map(button => {
                 break;
             case "sinh":
                 if (degFlag) {
-                    calcScreen.value = String(Math.sinh((parseFloat(calcScreen.value) * Math.PI) / 180));
+                    calcScreen.value =
+                        String(Math.sinh((parseFloat(calcScreen.value) * Math.PI) / 180));
                 }
                 else {
                     calcScreen.value = String(Math.sinh(parseFloat(calcScreen.value)));
@@ -460,7 +471,8 @@ buttons.map(button => {
                 break;
             case "cosh":
                 if (degFlag) {
-                    calcScreen.value = String(Math.cosh((parseFloat(calcScreen.value) * Math.PI) / 180));
+                    calcScreen.value =
+                        String(Math.cosh((parseFloat(calcScreen.value) * Math.PI) / 180));
                 }
                 else {
                     calcScreen.value = String(Math.cosh(parseFloat(calcScreen.value)));
@@ -468,7 +480,8 @@ buttons.map(button => {
                 break;
             case "tanh":
                 if (degFlag) {
-                    calcScreen.value = String(Math.tanh((parseFloat(calcScreen.value) * Math.PI) / 180));
+                    calcScreen.value =
+                        String(Math.tanh((parseFloat(calcScreen.value) * Math.PI) / 180));
                 }
                 else {
                     calcScreen.value = String(Math.tanh(parseFloat(calcScreen.value)));
@@ -529,14 +542,17 @@ buttons.map(button => {
                 break;
             // Logarithm
             case "exp":
-                let num = evaluate(calcScreen.value);
-                calcScreen.value = num.toExponential(10);
+                let val = evaluate(calcScreen.value);
+                if (typeof val === "number") {
+                    calcScreen.value = val.toExponential(10);
+                }
                 break;
             case "log":
                 calcScreen.value = String(Math.log10(parseFloat(calcScreen.value)));
                 break;
             case "ln":
-                calcScreen.value = String(Math.log10(parseFloat(calcScreen.value)) / Math.log10(Math.PI));
+                calcScreen.value =
+                    String(Math.log10(parseFloat(calcScreen.value)) / Math.log10(Math.PI));
                 break;
             case "log2𝑥":
                 calcScreen.value = String(Math.log2(parseFloat(calcScreen.value)));
@@ -550,7 +566,10 @@ buttons.map(button => {
                     calcHistory.value = "";
                 }
                 else {
-                    calcScreen.value = evaluate(calcHistory.value).toExponential(10);
+                    let equal = evaluate(calcHistory.value);
+                    if (typeof equal === "number") {
+                        calcScreen.value = equal.toExponential(10);
+                    }
                     calcHistory.value = "";
                 }
                 break;
