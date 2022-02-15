@@ -301,7 +301,7 @@ document.onkeyup = function(event : KeyboardEvent) : void{
   } 
 }
 // Other Functionalities & Event Handlers
-let calcScreen : any = (<HTMLInputElement>document.getElementById("calcScreen"));
+let calcScreen : HTMLInputElement = (<HTMLInputElement>document.getElementById("calcScreen"));
 let calcHistory : HTMLInputElement = (<HTMLInputElement>document.getElementById("calcHistory"));
 let buttons : HTMLButtonElement[] = Array.from(document.getElementsByTagName("button"));
 let memory = 0;
@@ -314,10 +314,10 @@ buttons.map(button => {
         calcHistory.value = "";
         break;
       case "π":
-        calcScreen.value = Math.PI;
+        calcScreen.value = String(Math.PI);
         break;
       case "e":
-        calcScreen.value = Math.E;
+        calcScreen.value = String(Math.E);
         break;
       case "⌫":
         calcScreen.value = calcScreen.value.slice(0, -1);
@@ -341,34 +341,34 @@ buttons.map(button => {
         calcScreen.value = "";
         break;
       case "±":
-        calcScreen.value *= -1;
+        calcScreen.value = String(parseFloat(calcScreen.value)*-1)
         break;
       // Factorial
       case "n!":
-        if (calcScreen.value > 0) {
+        if (parseFloat(calcScreen.value) > 0) {
           let fact = 1;
-          for (let i = 1; i <= calcScreen.value; i++) {
+          for (let i = 1; i <= parseFloat(calcScreen.value); i++) {
             fact *= i;
           }
-          calcScreen.value = fact;
-        } else if (calcScreen.value == 0) calcScreen.value = 1;
+          calcScreen.value = String(fact);
+        } else if (parseFloat(calcScreen.value) == 0) calcScreen.value = "1";
         else calcScreen.value = "invalid input";
         break;
       // Converts -ve into +ve
       case "|𝑥|":
-        if (calcScreen.value < 0) calcScreen.value = calcScreen.value * -1;
+        if (parseFloat(calcScreen.value) < 0) calcScreen.value = String(parseFloat(calcScreen.value) * -1);
         break;
       // Inverse
       case "1/𝑥":
-        if (calcScreen.value == 0) calcScreen.value = "infinity";
-        else calcScreen.value = 1 / calcScreen.value;
+        if (parseFloat(calcScreen.value) == 0) calcScreen.value = "infinity";
+        else calcScreen.value = String(1 / parseFloat(calcScreen.value));
         break;
       // Root
       case "√𝑥":
-        calcScreen.value = Math.sqrt(calcScreen.value);
+        calcScreen.value = String(Math.sqrt(parseFloat(calcScreen.value)));
         break;
       case "∛𝑥":
-        calcScreen.value = Math.cbrt(calcScreen.value);
+        calcScreen.value = String(Math.cbrt(parseFloat(calcScreen.value)));
         break;
       case "y√𝑥":
         calcHistory.value += calcScreen.value + "√";
@@ -376,119 +376,120 @@ buttons.map(button => {
         break;
       // Functions
       case "floor":
-        calcScreen.value = Math.floor(calcScreen.value);
+        const ans = Math.floor(parseFloat(calcScreen.value))
+        calcScreen.value = String(ans);
         break;
       case "ceiling":
-        calcScreen.value = Math.ceil(calcScreen.value);
+        calcScreen.value = String(Math.ceil(parseFloat(calcScreen.value)));
         break;
       case "round":
-        calcScreen.value = Math.round(calcScreen.value);
+        calcScreen.value = String(Math.round(parseFloat(calcScreen.value)));
         break;
       // Power
       case "10𝑥":
-        calcScreen.value = 10 ** calcScreen.value;
+        calcScreen.value = String(10 ** parseFloat(calcScreen.value));
         break;
       case "2𝑥":
-        calcScreen.value = 2 ** calcScreen.value;
+        calcScreen.value = String(2 ** parseFloat(calcScreen.value));
         break;
       case "e𝑥":
-        calcScreen.value = Math.E ** calcScreen.value;
+        calcScreen.value = String(Math.E ** parseFloat(calcScreen.value));
         break;
       case "𝑥3":
-        calcScreen.value = calcScreen.value ** 3;
+        calcScreen.value = String(parseFloat(calcScreen.value) ** 3);
         break;
       case "𝑥2":
-        calcScreen.value = calcScreen.value ** 2;
+        calcScreen.value = String(parseFloat(calcScreen.value) ** 2);
         break;  
       // Trigonometric functions
       case "sin":
         if (degFlag) {
-          calcScreen.value = Math.sin((calcScreen.value * Math.PI) / 180).toPrecision(10);
+          calcScreen.value = Math.sin((parseFloat(calcScreen.value) * Math.PI) / 180).toPrecision(10);
         } else {
-          calcScreen.value = Math.sin(calcScreen.value).toPrecision(10);
+          calcScreen.value = Math.sin(parseFloat(calcScreen.value)).toPrecision(10);
         }
         break;
       case "cos":
         if (degFlag) {
-          calcScreen.value = Math.cos((calcScreen.value * Math.PI) / 180).toPrecision(10);
+          calcScreen.value = Math.cos((parseFloat(calcScreen.value) * Math.PI) / 180).toPrecision(10);
         } else {
-          calcScreen.value = Math.cos(calcScreen.value).toPrecision(10);
+          calcScreen.value = Math.cos(parseFloat(calcScreen.value)).toPrecision(10);
         }
         break;
       case "tan":
         if (degFlag) {
-          calcScreen.value = Math.tan((calcScreen.value * Math.PI) / 180).toPrecision(10);
+          calcScreen.value = Math.tan((parseFloat(calcScreen.value) * Math.PI) / 180).toPrecision(10);
         } else {
-          calcScreen.value = Math.tan(calcScreen.value).toPrecision(10);
+          calcScreen.value = Math.tan(parseFloat(calcScreen.value)).toPrecision(10);
         }
         break;
       case "sin-1":
         if (degFlag) {
-          calcScreen.value = Math.asin(calcScreen.value);
-          calcScreen.value = (calcScreen.value * 180) / Math.PI;
+          const sineInverse = Math.asin(parseFloat(calcScreen.value));
+          calcScreen.value = String((sineInverse * 180) / Math.PI);
         } else {
-          calcScreen.value = Math.asin(calcScreen.value);
+          calcScreen.value = String(Math.asin(parseFloat(calcScreen.value)));
         }
         break;
       case "cos-1":
         if (degFlag) {
-          calcScreen.value = Math.acos(calcScreen.value);
-          calcScreen.value = (calcScreen.value * 180) / Math.PI;
+          const cosInverse = Math.acos(parseFloat(calcScreen.value));
+          calcScreen.value = String((cosInverse * 180) / Math.PI);
         } else {
-          calcScreen.value = Math.acos(calcScreen.value);
+          calcScreen.value = String(Math.acos(parseFloat(calcScreen.value)));
         }
         break;
       case "tan-1":
         if (degFlag) {
-          calcScreen.value = Math.atan(calcScreen.value);
-          calcScreen.value = (calcScreen.value * 180) / Math.PI;
+          const tanInverse = Math.atan(parseFloat(calcScreen.value));
+          calcScreen.value = String((tanInverse * 180) / Math.PI);
         } else {
-          calcScreen.value = Math.atan(calcScreen.value);
+          calcScreen.value = String(Math.atan(parseFloat(calcScreen.value)));
         }
         break;
       case "sinh":
         if (degFlag) {
-          calcScreen.value = Math.sinh((calcScreen.value * Math.PI) / 180);
+          calcScreen.value = String(Math.sinh((parseFloat(calcScreen.value) * Math.PI) / 180));
         } else {
-          calcScreen.value = Math.sinh(calcScreen.value);
+          calcScreen.value = String(Math.sinh(parseFloat(calcScreen.value)));
         }
         break;
       case "cosh":
         if (degFlag) {
-          calcScreen.value = Math.cosh((calcScreen.value * Math.PI) / 180);
+          calcScreen.value = String(Math.cosh((parseFloat(calcScreen.value) * Math.PI) / 180));
         } else {
-          calcScreen.value = Math.cosh(calcScreen.value);
+          calcScreen.value = String(Math.cosh(parseFloat(calcScreen.value)));
         }
         break;
       case "tanh":
         if (degFlag) {
-          calcScreen.value = Math.tanh((calcScreen.value * Math.PI) / 180);
+          calcScreen.value = String(Math.tanh((parseFloat(calcScreen.value) * Math.PI) / 180));
         } else {
-          calcScreen.value = Math.tanh(calcScreen.value);
+          calcScreen.value = String(Math.tanh(parseFloat(calcScreen.value)));
         }
         break;
       case "sin-1h":
         if (degFlag) {
-          calcScreen.value = Math.asinh(calcScreen.value);
-          calcScreen.value = (calcScreen.value * 180) / Math.PI;
+          const sinehInverse = Math.asinh(parseFloat(calcScreen.value));
+          calcScreen.value = String((sinehInverse * 180) / Math.PI);
         } else {
-          calcScreen.value = Math.asinh(calcScreen.value);
+          calcScreen.value = String(Math.asinh(parseFloat(calcScreen.value)));
         }
         break;
       case "cos-1h":
         if (degFlag) {
-          calcScreen.value = Math.acosh(calcScreen.value);
-          calcScreen.value = (calcScreen.value * 180) / Math.PI;
+          const coshInverse = Math.acosh(parseFloat(calcScreen.value));
+          calcScreen.value = String((coshInverse * 180) / Math.PI);
         } else {
-          calcScreen.value = Math.acosh(calcScreen.value);
+          calcScreen.value = String(Math.acosh(parseFloat(calcScreen.value)));
         }
         break;
       case "tan-1h":
         if (degFlag) {
-          calcScreen.value = Math.atanh(calcScreen.value);
-          calcScreen.value = (calcScreen.value * 180) / Math.PI;
+          const tanhInverse = Math.atanh(parseFloat(calcScreen.value));
+          calcScreen.value = String((tanhInverse * 180) / Math.PI);
         } else {
-          calcScreen.value = Math.atanh(calcScreen.value);
+          calcScreen.value = String(Math.atanh(parseFloat(calcScreen.value)));
         }
         break;
       // Memory Functions
@@ -510,7 +511,7 @@ buttons.map(button => {
         memory = parseFloat(calcScreen.value);
         break;
       case "MR":
-        calcScreen.value = memory;
+        calcScreen.value = String(memory);
         break;
       case "MC":
         memory = 0;
@@ -523,20 +524,20 @@ buttons.map(button => {
         calcScreen.value = num.toExponential(10);
         break;
       case "log":
-        calcScreen.value = Math.log10(calcScreen.value);
+        calcScreen.value = String(Math.log10(parseFloat(calcScreen.value)));
         break;
       case "ln":
-        calcScreen.value = Math.log10(calcScreen.value) / Math.log10(Math.PI);
+        calcScreen.value = String(Math.log10(parseFloat(calcScreen.value)) / Math.log10(Math.PI));
         break;
       case "log2𝑥":
-        calcScreen.value = Math.log2(calcScreen.value);
+        calcScreen.value = String(Math.log2(parseFloat(calcScreen.value)));
         break;
       // Evaluate
       case "=":
         calcHistory.value += calcScreen.value;
         calcScreen.value = "";
         if (feFlag) {
-          calcScreen.value = evaluate(calcHistory.value)
+          calcScreen.value = String(evaluate(calcHistory.value))
           calcHistory.value = "";
         } else {
           calcScreen.value = evaluate(calcHistory.value).toExponential(10);
